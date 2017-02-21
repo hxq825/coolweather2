@@ -64,7 +64,7 @@ public class ChooseAreaFragment extends Fragment {
      * 省列表
      */
 
-    private List<Province> mProvincesList ;
+    private List<Province> provincesList ;
     //市列表
     private List<City>  mCityList;
     //县列表
@@ -97,7 +97,8 @@ public class ChooseAreaFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 if (currentLevel ==LEVEL_PROVINCE){
-                    selectedProvince = mProvincesList.get(i);
+                    selectedProvince = provincesList.get(i);
+                    Log.d("logcat","selectedProvince---"+selectedProvince.toString());
                     // 数据点击 省时市就要查询出来
                     queryCities();
 
@@ -105,25 +106,28 @@ public class ChooseAreaFragment extends Fragment {
                     selectedCity = mCityList.get(i);
                     //数据点击 市时县就要查询出来
                     queryCounties();
-
+                    Log.d("logcat","selectedCity---"+selectedCity.toString());
                 }
             }
         });
 
-
+        Log.d("logcat","00000---");
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (currentLevel == LEVEL_COUNTY){
                     //点击 往上一级走
+                    Log.d("logcat","666---");
                     queryCities();
                 }else if (currentLevel == LEVEL_CITY){
                     // 往上一级走 显示 上级数据
                     queryProvinces();
+                    Log.d("logcat","7777---");
                 }
             }
         });
         //未选择的时候 省数据也要查询出来
+        Log.d("logcat","555---");
         queryProvinces();
     }
 
@@ -132,11 +136,11 @@ public class ChooseAreaFragment extends Fragment {
         titleText.setText("中国");
         backButton.setVisibility(View.GONE);
         Log.d("logcat","1111111---");
-        mProvincesList = DataSupport.findAll(Province.class);
+        provincesList = DataSupport.findAll(Province.class);
         Log.d("logcat","22---");
-        if (mProvincesList.size()>0){
+        if (provincesList.size() > 0){
             dataList.clear();
-            for (Province province :mProvincesList){
+            for (Province province :provincesList){
                 dataList.add(province.getProvinceName());
             }
             mAdapter.notifyDataSetChanged();

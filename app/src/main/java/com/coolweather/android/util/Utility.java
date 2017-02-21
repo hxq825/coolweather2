@@ -28,6 +28,7 @@ public class Utility {
      * @return
      */
     public static boolean handleProviceResponse(String response){
+
     if (!TextUtils.isEmpty(response)){
         try {
             JSONArray allProvinces = new JSONArray(response);
@@ -37,9 +38,9 @@ public class Utility {
                 province.setProvinceName(proviceObject.getString("name"));
                 province.setProvinceCode(proviceObject.getInt("id"));
                 province.save();// 保存
-
-        return true;
             }
+
+            return true;
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -55,24 +56,22 @@ public class Utility {
      */
     public static boolean handleCityResponse(String response,int provinceId){
 
-        try {
-            JSONArray jsonCityArray =new JSONArray(response);
-            for (int i =0;i<jsonCityArray.length();i++){
-                JSONObject cityObject = jsonCityArray.getJSONObject(i);
-                City city =new City();
-                city.setCityName(cityObject.getString("name"));
-                city.setCityCode(cityObject.getInt("id"));
-                city.setProvinceId(provinceId);
-                city.save();
+        if (!TextUtils.isEmpty(response)) {
+            try {
+                JSONArray jsonCityArray = new JSONArray(response);
+                for (int i = 0; i < jsonCityArray.length(); i++) {
+                    JSONObject cityObject = jsonCityArray.getJSONObject(i);
+                    City city = new City();
+                    city.setCityName(cityObject.getString("name"));
+                    city.setCityCode(cityObject.getInt("id"));
+                    city.setProvinceId(provinceId);
+                    city.save();
+                }
                 return true;
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-
-
         return false;
     }
     /**
@@ -83,21 +82,23 @@ public class Utility {
 
     public static boolean handleCountyResponse(String response,int cityId){
 
-        try {
-            JSONArray jsonCountyArray = new JSONArray(response);
-            for (int i=0; i<jsonCountyArray.length();i++){
-                JSONObject jsonCountyObject = jsonCountyArray.getJSONObject(i);
-                County county =new County();
-                county.setCountyName(jsonCountyObject.getString("name"));
-                county.setWeatherId(jsonCountyObject.getString("weather_id"));
-                county.setCityId(cityId);
-                county.save(); //保存
-                return true;
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        if (!TextUtils.isEmpty(response)) {
+            try {
+                JSONArray jsonCountyArray = new JSONArray(response);
+                for (int i = 0; i < jsonCountyArray.length(); i++) {
+                    JSONObject jsonCountyObject = jsonCountyArray.getJSONObject(i);
+                    County county = new County();
+                    county.setCountyName(jsonCountyObject.getString("name"));
+                    county.setWeatherId(jsonCountyObject.getString("weather_id"));
+                    county.setCityId(cityId);
+                    county.save(); //保存
 
+                }
+                return true;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         return false;
     }
 
