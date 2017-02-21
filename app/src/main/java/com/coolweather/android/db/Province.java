@@ -4,13 +4,15 @@ import org.litepal.crud.DataSupport;
 
 /**
  * Created by User on 2017/2/20.
+ * 省实体
+ * 继承已封装数据库
  */
 
 public class Province extends DataSupport {
 
     private int id;
-    private String proviceName;//省份名
-    private int proviceCode ; //省份编码
+    private String provinceName;//省份名
+    private int provinceCode ; //省份编码  以便查下一级数据
 
     public int getId() {
         return id;
@@ -20,19 +22,19 @@ public class Province extends DataSupport {
         this.id = id;
     }
 
-    public String getProviceName() {
-        return proviceName;
+    public String getProvinceName() {
+        return provinceName;
     }
 
-    public void setProviceName(String proviceName) {
-        this.proviceName = proviceName;
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
     }
 
-    public int getProviceCode() {
-        return proviceCode;
+    public int getProvinceCode() {
+        return provinceCode;
     }
 
-    public void setProviceCode(int proviceCode) {
-        this.proviceCode = proviceCode;
+    public void setProvinceCode(int provinceCode) {
+        this.provinceCode = provinceCode;
     }
 }
