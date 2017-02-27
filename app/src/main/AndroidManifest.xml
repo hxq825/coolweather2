@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.coolweather.android"
-          >
+          package="com.coolweather.android">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET"/>
-    <!-- 下面name定义了  搭配数据库使用，因为现在数据库都用xml建立的映射关系-->
+
+    <!-- 下面name定义了  搭配数据库使用，因为现在数据库都用xml建立的映射关系 -->
     <application
         android:name="org.litepal.LitePalApplication"
         android:allowBackup="true"
@@ -20,6 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".WeatherActivity"></activity>
     </application>
 
 </manifest>
