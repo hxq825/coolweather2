@@ -21,26 +21,36 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class Suggestion {
+
+    public Air air;
+
+    public class Air{
+
+        String brf;
+        String txt;
+    }
+    
     @SerializedName("comf")
     public Comfort mComfort;
 
     @SerializedName("cw")
     public ComWash mComWash;
 
-    public Sport mSport;
+    public Sport sport;
 
     public class Comfort{
+        public String brf;
         @SerializedName("txt")
         public String info;
     }
 
     public class ComWash{
-
+        public String brf;
         @SerializedName("txt")
         public String info;
     }
     public class Sport{
-
+        public String brf;
         @SerializedName("txt")
         public String info;
     }

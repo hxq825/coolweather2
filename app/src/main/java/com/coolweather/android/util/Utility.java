@@ -30,7 +30,7 @@ public class Utility {
      * @param response
      * @return
      */
-    public static boolean handleProviceResponse(String response){
+    public static boolean handleProvinceResponse(String response){
 
     if (!TextUtils.isEmpty(response)){
         try {
@@ -111,7 +111,7 @@ public class Utility {
      *
      * 将返回的JSON数据解析成weather实体类
      */
-    public static Weather handleWeatherResponst(String response){
+    public static Weather handleWeatherResponse(String response){
 
         try{
             JSONObject jsonObject =new JSONObject(response);

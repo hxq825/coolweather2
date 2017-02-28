@@ -255,7 +255,7 @@ Log.d("logcat","-------queryFromServer-");
                 boolean result =false;
                 if ("province".equals(type)){
                     //解析和处理服务器返回的数据
-                    result = Utility.handleProviceResponse(responseText);
+                    result = Utility.handleProvinceResponse(responseText);
                     Log.d("logcat","---------onResponse---1---"+result);
                 }else if ("city".equals(type)){
                     result =Utility.handleCityResponse(responseText,

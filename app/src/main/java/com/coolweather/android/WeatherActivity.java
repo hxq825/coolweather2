@@ -98,17 +98,17 @@ public class WeatherActivity extends AppCompatActivity {
         navButton = (Button) findViewById(R.id.nav_button);
 
 
-
-
         //缓存
         SharedPreferences prfs = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherString =prfs.getString("weather",null);
         final String weatherId;
         if (weatherString !=null){
             //有缓存时直接解析天气数据
-            Weather weather = Utility.handleWeatherResponst(weatherString);
-           weatherId = weather.mBasic.weatherId;
-            //Log.d("logcat","------weatherId----1--"+weatherId.toString());
+            Weather weather = Utility.handleWeatherResponse(weatherString);
+
+           weatherId = weather.basic.weatherId;
+                Log.d("logcat","------weatherId----1--"+weatherId.toString());
+
             //直接显示
             showWeatherInfo(weather);
         }else {
@@ -119,19 +119,7 @@ public class WeatherActivity extends AppCompatActivity {
             //获取服务器数据
             requestWeather(weatherId);
         }
-        //必应的图片使用
-        String bingPic = prfs.getString("bing_pic",null);
-        if (bingPicImg != null){
-            //读取缓存图片
-            //图片缓存开源框架    添加引用 build.gradle 中添加配置
-            Log.d("logcat","------读取缓存图片------");
-            Glide.with(this).load(bingPic).into(bingPicImg);
-        }else {
-            //如果没有缓存则 获取必应服务器背景图片
-            Log.d("logcat","------读取缓存图片---bingPic---");
-            loadBingPic();
 
-        }
         //第四阶段 手动更新  回调onRefresh更新时监听
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.
                 OnRefreshListener(){
@@ -150,6 +138,19 @@ public class WeatherActivity extends AppCompatActivity {
                 mDrawerLayout.openDrawer(GravityCompat.START);
             }
         });
+        //必应的图片使用
+        String bingPic = prfs.getString("bing_pic",null);
+        if (bingPicImg != null){
+            //读取缓存图片
+            //图片缓存开源框架    添加引用 build.gradle 中添加配置
+            Log.d("logcat","------读取缓存图片------");
+            Glide.with(this).load(bingPic).into(bingPicImg);
+        }else {
+            //如果没有缓存则 获取必应服务器背景图片
+            Log.d("logcat","------读取缓存图片---bingPic---");
+            loadBingPic();
+
+        }
 
     }
 
@@ -159,10 +160,11 @@ public class WeatherActivity extends AppCompatActivity {
      * 获取和风天气接口数据
      */
     public void requestWeather(final String weatherId){
-      //  String weatherUrl = "http://guolin.tech/api/weather?cityid=" + weatherId + "&key=bc0418b57b2d4918819d3974ac1285d9";
+      // String weatherUrl = "http://guolin.tech/api/weather?cityid=" + weatherId + "&key=bc0418b57b2d4918819d3974ac1285d9";
 
-       String weatherUrl ="http://guolin.tech/api/weather?cityid=" +
-                weatherId+"&key=f49513d45c8a4f32a2071ba492cccd3a";
+          String weatherUrl ="http://guolin.tech/api/weather?cityid=" +
+              weatherId+"&key=f49513d45c8a4f32a2071ba492cccd3a";
+        Log.d("logcat","------weatherUrl-----"+weatherUrl.toString());
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -181,7 +183,8 @@ public class WeatherActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final  String responseText =response.body().string();
-                final Weather weather = Utility.handleWeatherResponst(responseText);
+                final Weather weather = Utility.handleWeatherResponse(responseText);
+                Log.d("logcat","-------weather-1----"+weather.toString());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -213,19 +216,21 @@ public class WeatherActivity extends AppCompatActivity {
      */
     private void showWeatherInfo(Weather weather){
     try {
-    String cityName = weather.mBasic.cityName;
-    String updateTime = weather.mBasic.update.updateTime.split(" ")[1];
-    String degree = weather.mNow.temperature + "℃";
-    String weatherInfo = weather.mNow.more.info;
+        Log.d("logcat","---weather 1--"+weather+"---2-");
+        Log.d("logcat","---weather2--"+weather.basic);
+        Log.d("logcat","---weather- 3-"+weather.basic.cityName);
+    String cityName = weather.basic.cityName;
+
+    String updateTime = weather.basic.update.updateTime.split(" ")[1];
+    String degree = weather.now.temperature + "℃";
+    String weatherInfo = weather.now.more.info;
     titleCity.setText(cityName);
     titleUpdateTiem.setText(updateTime);
     degreeText.setText(degree);
     weatherInfoText.setText(weatherInfo);
     forecastLayout.removeAllViews();
-        Log.d("logcat","--try---null-----");
         }catch (Exception e){
         e.printStackTrace();
-        Log.d("logcat","--try-catch--null--1---"+e.toString());
     }
 //加载显示未来的几天的天气预报部分，并加载了布局
         for (Forecast forecast:weather.mForecasts){
@@ -252,21 +257,16 @@ public class WeatherActivity extends AppCompatActivity {
         try {
 
 
-        String comfort ="舒适度："+weather.mSuggestion.mComfort.info;
-        String carWash ="洗车指数:"+weather.mSuggestion.mComWash.info;
-        String sport ="运动建议:"+weather.mSuggestion.mSport.info;
-        Log.d("logcat","--try---null-----");
+        String comfort ="舒适度："+weather.suggestion.mComfort.info;
+        String carWash ="洗车指数:"+weather.suggestion.mComWash.info;
+        String sport ="运动建议:"+weather.suggestion.sport.info;
         comfortText.setText(comfort);
         carWashText.setText(carWash);
         sportText.setText(sport);
         weatherLayout.setVisibility(View.VISIBLE);
         }catch (Exception e){
-            Log.d("logcat","--try-catch--null--2---"+e.toString());
             e.printStackTrace();
         }
-
-
-
 
 
     }
@@ -305,24 +305,6 @@ public class WeatherActivity extends AppCompatActivity {
         });
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
