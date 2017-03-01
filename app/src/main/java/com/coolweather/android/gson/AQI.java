@@ -1,5 +1,7 @@
 package com.coolweather.android.gson;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by User on 2017/2/21.
  *
@@ -15,11 +17,15 @@ package com.coolweather.android.gson;
 
 public class AQI {
 
+    @SerializedName("city")
     public AQICity mCity;
 
     public class AQICity{
         public String aqi;
+        public String pm10;
         public String pm25;
+        public String qlty;
+
 
     }
 

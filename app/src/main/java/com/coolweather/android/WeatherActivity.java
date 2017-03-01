@@ -52,6 +52,8 @@ public class WeatherActivity extends AppCompatActivity {
     private LinearLayout forecastLayout;
     private TextView aqiText;
     private TextView pm25Text;
+    private TextView aqipm10;
+    private TextView aqiqlty;
     private TextView comfortText;
     private TextView carWashText;
     private TextView sportText;
@@ -84,6 +86,8 @@ public class WeatherActivity extends AppCompatActivity {
         forecastLayout = (LinearLayout) findViewById(R.id.forecast_layout);
         aqiText = (TextView) findViewById(R.id.aqi_text);
         pm25Text = (TextView) findViewById(R.id.pm25_text);
+        aqipm10 = (TextView) findViewById(R.id.aqi_pm10);
+        aqiqlty = (TextView) findViewById(R.id.aqi_qlty);
         comfortText = (TextView) findViewById(R.id.comfort_text);
         carWashText = (TextView) findViewById(R.id.car_wash_text);
         sportText = (TextView) findViewById(R.id.sport_text);
@@ -217,6 +221,7 @@ public class WeatherActivity extends AppCompatActivity {
     private void showWeatherInfo(Weather weather){
 
         if (weather!=null&&"ok".equals(weather.status)){
+
     try {
     String cityName = weather.basic.cityName;
     String updateTime = weather.basic.update.updateTime.split(" ")[1];
@@ -227,9 +232,7 @@ public class WeatherActivity extends AppCompatActivity {
     degreeText.setText(degree);
     weatherInfoText.setText(weatherInfo);
     forecastLayout.removeAllViews();
-        }catch (Exception e){
-        e.printStackTrace();
-    }
+
 //加载显示未来的几天的天气预报部分，并加载了布局
         for (Forecast forecast:weather.mForecasts){
             //加载布局 添加到父类布局控件
@@ -249,10 +252,10 @@ public class WeatherActivity extends AppCompatActivity {
 
         if (weather.aqi!=null){
             aqiText.setText(weather.aqi.mCity.aqi);
+            aqipm10.setText(weather.aqi.mCity.pm10);
             pm25Text.setText(weather.aqi.mCity.pm25);
+            aqiqlty.setText(weather.aqi.mCity.qlty);
         }
-
-        try {
 
 
         String comfort ="舒适度："+weather.suggestion.mComfort.info;
@@ -262,6 +265,7 @@ public class WeatherActivity extends AppCompatActivity {
         carWashText.setText(carWash);
         sportText.setText(sport);
         weatherLayout.setVisibility(View.VISIBLE);
+
         }catch (Exception e){
             e.printStackTrace();
         }
